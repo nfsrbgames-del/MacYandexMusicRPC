@@ -25,7 +25,7 @@ Discord Rich Presence для отображения музыки из Яндек
 # nowplaying-cli — трек из системы
 brew install nowplaying-cli
 
-# media-control — источник трека (обязательно для фильтрации!)
+# media-control — источник трека (для фильтрации)
 brew tap ungive/media-control
 brew install media-control
 ```
@@ -52,13 +52,13 @@ python MacYandexMusicRPC.py
 
 ```
 MacYandexMusicRPC/
-├── MacYandexMusicRPC.py   # Основной скрипт
-├── .env.example            # Пример настроек (коммитится)
-├── .env                    # Твои настройки (НЕ коммитится!)
-├── .gitignore              # Запрещает .env и мусор
-├── requirements.txt        # Python зависимости
-├── LICENSE                 # MIT
-└── README.md               # Этот файл
+├── MacYandexMusicRPC.py
+├── .env.example
+├── .env
+├── .gitignore
+├── requirements.txt
+├── LICENSE
+└── README.md
 ```
 
 ## Фильтрация источников
