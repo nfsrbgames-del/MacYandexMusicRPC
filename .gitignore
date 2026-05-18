@@ -1,0 +1,22 @@
+# Секреты
+.env
+config.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+
+# macOS
+.DS_Store
+*.command
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

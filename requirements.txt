@@ -1,0 +1,4 @@
+pypresence
+yandex-music
+rumps
+keyring
