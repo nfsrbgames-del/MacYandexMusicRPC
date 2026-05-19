@@ -38,24 +38,51 @@ pip install -r requirements.txt
 
 ### 3. Запуск
 
+**Без окна Terminal:** двойной клик по `MacYandexMusicRPC.app` (только иконка 🎵 в menu bar).
+
+При первом запуске macOS покажет запрос **Универсального доступа** (нужен `nowplaying-cli`, чтобы читать «Сейчас играет»). Если пропустил — меню 🎵 → **Доступ к медиа…**
+
+Из **Terminal** раньше могло работать без отдельного запроса: разрешение было у **Terminal.app**, а не у MacYandexMusicRPC.
+
+Логи: `~/.config/macyandexrpc/run.log`
+
+Или:
+
 ```bash
-python MacYandexMusicRPC.py
+git clone https://github.com/nfsrbgames-del/MacYandexMusicRPC.git
+cd MacYandexMusicRPC
+bash setup.command    # brew: nowplaying-cli, media-control + .env
+open -gj MacYandexMusicRPC.app
 ```
 
-**Всё.** Зависимости установятся автоматически.
+`python MacYandexMusicRPC.py` — для отладки (виден вывод в Terminal).
 
-Токен Яндекс Музыки — через меню 🎵 → **🔑 Токен Яндекс Музыки**. Хранится в macOS Keychain (безопасно).
+`run_music_rpc.command` — открывает `.app`, если есть; иначе фоновый запуск.
 
-> Или через `.env` файл: `cp .env.example .env` и заполни. `YANDEX_TOKEN` необязателен, но помогает при VPN/блокировках. Получить: [инструкция](https://github.com/MarshalX/yandex-music-api/discussions/513)
+pip-зависимости ставятся при **первом** запуске скрипта. `setup.command` нужен для **brew**-утилит (их Python сам не поставит).
+
+### Настройки (меню 🎵)
+
+- **Токен Яндекс Музыки** — macOS Keychain (или `YANDEX_TOKEN` в `.env`)
+- **Показать логи** / **Перезапустить RPC**
+
+**Строгий поиск** (`STRONG_FIND` в `.env`) — как у [WinYandexMusicRPC](https://github.com/FozerG/WinYandexMusicRPC): при `true` в Discord попадает только точное совпадение с Яндексом; при `false` — первый результат поиска (удобно для VK/Spotify в браузере, но бывают ошибки).
+
+Токен необязателен, но помогает при VPN. Получить: [инструкция](https://github.com/MarshalX/yandex-music-api/discussions/513)
+
+```bash
+cp .env.example .env   # CLIENT_ID, STRONG_FIND, UPDATE_INTERVAL
+```
 
 ## Структура проекта
 
 ```
 MacYandexMusicRPC/
 ├── MacYandexMusicRPC.py
+├── MacYandexMusicRPC.app   # запуск без Terminal
+├── setup.command           # brew + автозапуск
+├── run_music_rpc.command
 ├── .env.example
-├── .env
-├── .gitignore
 ├── requirements.txt
 ├── LICENSE
 └── README.md
@@ -79,8 +106,8 @@ MacYandexMusicRPC/
 | Медиа-контроль | `Windows.Media.Control` | `nowplaying-cli` + `media-control` |
 | Трей | `pystray` | `rumps` (menu bar) |
 | Определение приложения | WinRT session | `media-control` bundleIdentifier |
-| Настройки | GUI (PyQt) + keyring | `.env` файл |
-| Токен | keyring | `.env` или переменная окружения |
+| Настройки | GUI (PyQt) + keyring | menu bar + `.env` |
+| Токен | keyring | Keychain + `.env` |
 
 ## Благодарности
 

@@ -1,0 +1,37 @@
+#!/bin/bash
+# Не перенаправлять stdout — иначе rumps не рисует иконку в menu bar
+export PATH="/opt/homebrew/bin:/usr/local/bin:${PATH}"
+APP_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+REPO_DIR="$(dirname "$APP_ROOT")"
+SCRIPT="$REPO_DIR/MacYandexMusicRPC.py"
+PID_FILE="$HOME/.config/macyandexrpc/app.pid"
+mkdir -p "$HOME/.config/macyandexrpc"
+
+if [ ! -f "$SCRIPT" ]; then
+    osascript -e 'display alert "MacYandexMusicRPC" message "Не найден MacYandexMusicRPC.py рядом с .app" as critical'
+    exit 1
+fi
+
+if [ -f "$PID_FILE" ]; then
+    OLD_PID="$(cat "$PID_FILE" 2>/dev/null)"
+    if [ -n "$OLD_PID" ] && kill -0 "$OLD_PID" 2>/dev/null; then
+        osascript -e 'display notification "Уже запущен" with title "MacYandexMusicRPC"'
+        exit 0
+    fi
+fi
+
+if [ -x "/opt/homebrew/bin/pythonw3.12" ]; then
+    PYTHON="/opt/homebrew/bin/pythonw3.12"
+elif [ -f "/opt/homebrew/bin/python3.12" ]; then
+    PYTHON="/opt/homebrew/bin/python3.12"
+elif command -v python3 >/dev/null 2>&1; then
+    PYTHON="$(command -v python3)"
+else
+    osascript -e 'display alert "MacYandexMusicRPC" message "Python не найден. Запусти setup.command" as critical'
+    exit 1
+fi
+
+cd "$REPO_DIR"
+"$PYTHON" -u "$SCRIPT" &
+echo $! >"$PID_FILE"
+exit 0

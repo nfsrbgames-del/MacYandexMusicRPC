@@ -73,17 +73,14 @@ if [ "$autostart" = "y" ] || [ "$autostart" = "Y" ]; then
     <string>$PLIST_NAME</string>
     <key>ProgramArguments</key>
     <array>
-        <string>$PYTHON</string>
-        <string>$DIR/MacYandexMusicRPC.py</string>
+        <string>/usr/bin/open</string>
+        <string>-gj</string>
+        <string>$DIR/MacYandexMusicRPC.app</string>
     </array>
     <key>RunAtLoad</key>
     <true/>
     <key>KeepAlive</key>
     <false/>
-    <key>StandardOutPath</key>
-    <string>/tmp/macyandexrpc.log</string>
-    <key>StandardErrorPath</key>
-    <string>/tmp/macyandexrpc.err</string>
 </dict>
 </plist>
 EOF
@@ -103,7 +100,7 @@ echo ""
 echo "================================"
 echo "✅ Установка завершена!"
 echo ""
-echo "Запуск сейчас: двойной клик на run_music_rpc.command"
+echo "Запуск: двойной клик MacYandexMusicRPC.app (без Terminal)"
 echo "   или: $PYTHON $DIR/MacYandexMusicRPC.py"
 echo ""
 echo "Удалить автозапуск: launchctl unload $PLIST_PATH"
@@ -111,5 +108,5 @@ echo "Логи автозапуска: /tmp/macyandexrpc.log"
 echo ""
 read -p "Запустить сейчас? [y/n]: " run_now
 if [ "$run_now" = "y" ] || [ "$run_now" = "Y" ]; then
-    open -a Terminal "$DIR/run_music_rpc.command"
+    open -gj "$DIR/MacYandexMusicRPC.app" 2>/dev/null || open -gj "$DIR/run_music_rpc.command"
 fi
